@@ -1,0 +1,30 @@
+{
+  "name": "cucumberframework",
+  "version": "1.0.0",
+  "description": "Initial Framework setup for cucumber",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run compile && protractor conf/protractor.conf.js",
+    "protractor": "./node_modules/protractor/built/cli.js",
+    "webdriver-update": "./node_modules/.bin/webdriver-manager update",
+    "webdriver-start": "./node_modules/.bin/webdriver-manager start --standalone",
+    "compileTs": "./node_modules/.bin/tsc -p .",
+    "compile": "npm run clean && npm run compileTs",
+    "clean": "./node_modules/.bin/rimraf rmdir build",
+    "report": "node result/index.js"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^7.3.1",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "protractor": "^7.0.0",
+    "protractor-cucumber-framework": "^8.2.3",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.21",
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/node": "^16.6.2",
+    "cucumber-html-reporter": "^5.5.0"
+  }
+}

@@ -1,0 +1,76 @@
+Feature: Accounts Test Scenarios
+
+    Scenario: Accounts navigation and see all accounts
+        Given  I am in "Service" application
+        And I am in "Accounts" object
+        When I change list view to "All Accounts"
+        Then List view shows account records
+
+     #Scenario: Change list view to "New Last Week"
+     #   Given I am in "Accounts" object
+     #   When I change list view to "New Last Week"
+     #   Then No records displayed
+
+    Scenario: Change applications and objects
+        Given I am in "Service Console" application
+        When I am in "Reports" object [console]
+        #When I am in "Offers" object [console]
+
+    Scenario: Create new account
+        Given I am in "Accounts" object [console]
+        When I click "New" button on list view page
+        And Fill in a "New Account" record details form
+        |Account Name   |Phone      |Description                            |
+        |Automation     |12345678   |This account created from automation   |
+        And I click "Save" button
+        And I close success alert with text "was created"
+        Then I am in "Details" tab
+        And Verify record details
+        |Account Name   |Phone      |Description                            |Potential Value    |
+        |Automation     |12345678   |This account created from automation   |USD 0.00           |
+        And Verify highlight panel
+        |Phone      |
+        |12345678   |
+        And Fields are readonly
+        |Annual Revenue|
+
+    Scenario: Modify existing account
+        Given I click edit button of field "Account Name" on record details
+        And Fill in a record details form
+        |Account Name          |
+        |AutomationUpdated     |
+        And I click "Save" button
+        And Component finished loading
+        Then I am in "Details" tab
+        And Verify record details
+        |Account Name          |
+        |AutomationUpdated     |
+
+    Scenario: Validation rule error at field
+        Given I am in "Accounts" object [console]
+        When I click "New" button on list view page
+        And Fill in a "New Account" record details form
+        |Account Name   |Website        |
+        |Automation2    |www.test.com   |
+        And I click "Save" button
+        Then Validation rule alert at field "Website" with message "Web site cannot be www.test.com"
+        
+    Scenario: Validation rule error on Page
+        Given I am in "Accounts" object [console]
+        When I click "New" button on list view page
+        And Fill in a "New Account" record details form
+        |Account Name   |Account Site   |
+        |Automation2    |www.site.com   |
+        And I click "Save" button
+        Then Validation rule alert on page with message "Account Site cannot be www.site.com"
+
+    Scenario: Global Search not found result
+        When I use global search to search for "Automation2"
+        Then Global search cannot find matched result
+
+    Scenario: Global Search found result
+        When I use global search to search for "AutomationUpdated"
+        Then Global search found matched "Accounts" object
+
+
+
